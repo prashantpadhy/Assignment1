@@ -12,7 +12,7 @@ app.use(express.json());
 db.on("error", (error) => console.log(error));
 db.once("open", () => console.log("connected"));
 
-app.get("/users", async (req, res) => {
+app.get("/users", async (req, res) => { //API to get all the stored users in mongoDB
   try {
     const users = await User.find();
     res.json(users);
@@ -21,7 +21,7 @@ app.get("/users", async (req, res) => {
   }
 });
 
-app.post("/users", async (req, res) => {
+app.post("/users", async (req, res) => { // API to create an user
   console.log(req.body);
   const user = new User({
     name: req.body.name,
@@ -38,10 +38,10 @@ app.post("/users", async (req, res) => {
   }
 });
 
-app.put("/users/:id", getUser, async (req, res) => {
+app.put("/users/:id", getUser, async (req, res) => { // api to update user
   console.log(req.body);
-  res.user.refuser == req.body.refuser
-  res.user.ispaymentmade = true
+  res.user.refuser == req.body.refuser  //set refuser to request's refuser
+  res.user.ispaymentmade = true  
   res.user.totalearningmade =  (res.user.totalearningmade) + 10
   try {
    const updatedUser = await res.user.save()
@@ -52,7 +52,7 @@ app.put("/users/:id", getUser, async (req, res) => {
   }
 });
 
-async function getUser(req, res, next) {
+async function getUser(req, res, next) { // finding user
   let user
   try {
     user = await User.findById(req.params.id);
